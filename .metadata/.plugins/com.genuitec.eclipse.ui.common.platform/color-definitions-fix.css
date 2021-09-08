@@ -1866,8 +1866,8 @@ IEclipsePreferences#org-eclipse-jdt-ui {
 		'semanticHighlighting.parameterVariable.italic=false'
 		'semanticHighlighting.parameterVariable.strikethrough=false'
 		'semanticHighlighting.parameterVariable.underline=false'
-		'semanticHighlighting.restrictedKeywords.bold=false'
-		'semanticHighlighting.restrictedKeywords.color=197,104,28'
+		'semanticHighlighting.recordKeyword.bold=false'
+		'semanticHighlighting.recordKeyword.color=197,104,28'
 		'semanticHighlighting.staticField.bold=false'
 		'semanticHighlighting.staticField.color=239,192,144'
 		'semanticHighlighting.staticField.enabled=true'
@@ -1898,6 +1898,10 @@ IEclipsePreferences#org-eclipse-jdt-ui {
 		'semanticHighlighting.typeParameter.italic=false'
 		'semanticHighlighting.typeParameter.strikethrough=false'
 		'semanticHighlighting.typeParameter.underline=false'
+		'semanticHighlighting.varKeyword.bold=false'
+		'semanticHighlighting.varKeyword.color=197,104,28'
+		'semanticHighlighting.yieldKeyword.bold=false'
+		'semanticHighlighting.yieldKeyword.color=197,104,28'
 		'sourceHoverBackgroundColor=0,0,0'
 }
 IEclipsePreferences#org-eclipse-jst-jsp-ui {
@@ -2399,6 +2403,17 @@ IEclipsePreferences#org-eclipse-wst-jsdt-ui {
 		'semanticHighlighting.methodDeclarationName.underline=false'
 		'tagName=255,255,255'
 }
+IEclipsePreferences#org-eclipse-wst-json-ui {
+	preferences:
+		'COLON=#ffffff | null | false | false | false | false'
+		'COMMA=#ffffff | null | false | false | false | false'
+		'CURLY_BRACE=#ffffff | null | false | false | false | false'
+		'OBJECT_KEY=#bed6ff | null | false | false | false | false'
+		'VALUE_BOOLEAN=#03a8d8 | null | false | false | false | false'
+		'VALUE_NULL=#89969f | null | false | false | false | false'
+		'VALUE_NUMBER=#cb4f40 | null | false | false | false | false'
+		'VALUE_STRING=#ffc600 | null | true | true | false | false'
+}
 IEclipsePreferences#org-eclipse-wst-sse-ui {
 	preferences:
 		'content_assist_completion_replacement_background=200,200,0'
@@ -2743,17 +2758,6 @@ IEclipsePreferences#org-sweetlemonade-eclipse-json {
 		'colorNullEnabled=true'
 		'colorStringStyle=0'
 		'colorNumberEnabled=true'
-}
-IEclipsePreferences#org.eclipse.datatools.sqltools.sqleditor {
-	preferences:
-		'Double\ quoted\ string=0,0,0,0,0,40,161,152'
-		'Identifier=0,0,0,0,0,99,140,177'
-		'Keyword=0,0,0,0,0,197,108,29'
-		'Multi-line\ comment=0,0,0,0,0,85,110,117'
-		'Others=0,0,0,0,0,197,204,204'
-		'Single-line\ comment=0,0,0,0,0,85,110,117'
-		'Single\ quoted\ string=0,0,0,0,0,40,161,152'
-		'Type=0,0,0,0,0,197,108,29'
 }
 IEclipsePreferences#winterwell-markdown {
 	preferences:

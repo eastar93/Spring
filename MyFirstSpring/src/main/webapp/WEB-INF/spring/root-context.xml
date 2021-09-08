@@ -12,14 +12,20 @@
 	<bean id="singer" class="org.ict.controller.di.classfile.Singer"></bean>	
 	
 	<bean id="stage" class="org.ict.controller.di.classfile.Stage">
-		<!-- stage는 생성자에서 singer를 요청하기 때문에, bean 태그 사이에
-		singer를 넣을 수 있도록 constructor-arg 태그를 추가합니다. -->
+
+	<!-- stage는 생성자에서 singer를 요청하기 때문에, bean 태그 사이에
+	singer를 넣을 수 있도록 constructor-arg 태그를 추가합니다. -->
+
 	<constructor-arg ref="singer" />
 	</bean>
 	
 	<!-- broadcast도 공장에 주문해보세요. -->
 	<bean id="broadcast" class="org.ict.controller.di.classfile.Broadcast">
 		<constructor-arg ref="stage" />
+	</bean>
+	
+	<bean id="satellite" class="org.ict.controller.di.classfile.Satellite">
+		<constructor-arg ref="broadcast"/>
 	</bean>
 		
 		

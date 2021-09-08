@@ -1,6 +1,7 @@
 package org.ict.controller.di;
 
 import org.ict.controller.di.classfile.Broadcast;
+import org.ict.controller.di.classfile.Satellite;
 import org.ict.controller.di.classfile.Singer;
 import org.ict.controller.di.classfile.Stage;
 
@@ -20,6 +21,9 @@ public class DiMainJavaVer {
 		// 3. 방송 무대를 송출하는 기능을 호출해주세요.
 		Broadcast broadcast = new Broadcast(stage);
 		broadcast.broadcast();
+		
+		Satellite satellitebroadcast = new Satellite(broadcast);
+		satellitebroadcast.satelliteBroadcast();
 		
 	}
 

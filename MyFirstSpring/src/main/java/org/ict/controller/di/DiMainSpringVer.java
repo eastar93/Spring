@@ -1,7 +1,6 @@
 package org.ict.controller.di;
 
 import org.ict.controller.di.classfile.Broadcast;
-import org.ict.controller.di.classfile.Singer;
 import org.springframework.context.support.GenericXmlApplicationContext;
 
 public class DiMainSpringVer {
