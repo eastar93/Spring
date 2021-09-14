@@ -14,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.sun.tools.sjavac.Log;
-
 import lombok.extern.log4j.Log4j;
 
 // 의존성 주입으로 생성한 Connection Pool 관련 변수를 가져오기 위해서

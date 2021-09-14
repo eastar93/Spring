@@ -22,7 +22,7 @@ public class MybatisTests {
 
 	// Connection => OJDBC 담당
 	// DataSource => HikariCP 담당
-	// SqlSessionFactory => 
+	// SqlSessionFactory => Mybatis 담당
 	@Autowired
 	private SqlSessionFactory sqlSessionFactory;
 	
