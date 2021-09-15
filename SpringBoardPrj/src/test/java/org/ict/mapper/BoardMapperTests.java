@@ -52,12 +52,30 @@ public class BoardMapperTests {
 		boardMapper.insert(vo);
 	}
 	
-	@Test
+	//@Test
 	public void testSelect() {
 		
 		// 있는 글번호 입력시 데이터 출력
 		log.info("특정 게시글 조회중...");
-		boardMapper.select((long)6);
+		boardMapper.select(6L);
+	}
+	//@Test
+	public void testDelete() {
+		
+		log.info("게시글 삭제중...");
+		boardMapper.delete(3L);
+	}
+	
+	@Test
+	public void testUpdate() {
+		log.info("게시물 수정중...");
+		
+		BoardVO vo = new BoardVO();
+		vo.setBno(4L);
+		vo.setTitle("수정글");
+		vo.setContent("수정내용");
+		vo.setWriter("수정한글쓴이");
+		boardMapper.update(vo);
 	}
 	
 }
