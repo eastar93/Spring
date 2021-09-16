@@ -21,7 +21,7 @@ public interface BoardMapper {
 	// 글 번호(Long bno)를 파라미터로 받아
 	// 해당 글 번호에 해당하는 글을 리턴해 보여주는 메서드를 작성해주세요.
 	// 메서드 이름은 select 입니다.
-	// xml파일에 쿼리문도 작성해보겠습니다.
+	// xml파일에 쿼리문도 작성해보겠습니다.ㅊ
 		
 	public BoardVO select(Long bno);
 	

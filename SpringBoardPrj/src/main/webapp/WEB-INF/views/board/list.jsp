@@ -16,17 +16,17 @@
 		<tr>
 			<th>글번호</th>
 			<th>글제목</th>
-			<th c>글쓴이</th>
+			<th>글쓴이</th>
 			<th>작성일</th>
 			<th>수정일</th>			
 		</tr>
 		<c:forEach var="board" items="${list}">
 			<tr>
-				<td>${board.bno }</td>
-				<td>${board.title }</td>
-				<td>${board.writer }</td>
-				<td>${board.regdate }</td>
-				<td>${board.updatedate }</td>
+				<td>${board.bno}</td>
+				<td><a href="/board/get?bno=${board.bno}">${board.title}</a></td>
+				<td>${board.writer}</td>
+				<td>${board.regdate}</td>
+				<td>${board.updatedate}</td>
 			</tr>
 		</c:forEach>
 		
