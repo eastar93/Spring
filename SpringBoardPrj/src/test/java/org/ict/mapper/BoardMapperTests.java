@@ -29,9 +29,9 @@ public class BoardMapperTests {
 	private BoardMapper boardMapper;
 	
 	//@Test
-	public void testGetList() {
+	public void testGetList(String keyword) {
 		log.info("게시글 조회중...");
-		log.info(boardMapper.getList());
+		log.info(boardMapper.getList(keyword));
 	}
 	
 	// insert를 실행할 테스트코드를 하단에 작성해보겠습니다.

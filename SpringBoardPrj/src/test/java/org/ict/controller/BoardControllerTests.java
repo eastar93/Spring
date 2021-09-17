@@ -77,7 +77,7 @@ public class BoardControllerTests {
 	// 참고로 .param()으로 전달하는 자료는 자료형을 막론하고 무조건
 	// " "로 감싸서 문자화 시켜야 하는데 이유는
 	// url에는 자료형 구분이 없고 오직 String뿐이기 때문입니다.
-	@Test
+	//@Test
 	public void testGet() throws Exception {
 		
 		String detailPage = mockMvc.perform(
@@ -86,7 +86,35 @@ public class BoardControllerTests {
 				).andReturn().getModelAndView().getViewName();
 		
 		log.info(detailPage);
-		
 	}
 	
+	//@Test
+	public void testRemove() throws Exception {
+		
+		String deletepage = mockMvc.perform(
+				MockMvcRequestBuilders.post("/board/remove")
+				.param("bno", "5")
+				).andReturn().getModelAndView().getViewName();
+		
+		log.info(deletepage);
+	}
+	
+	@Test
+	public void testModify() throws Exception {
+		
+		// 실제로 실행될 쿼리문과 비교해서 데이터를 날려주시면 됩니다.
+		// 현재 수정로직은 bno를 WHERE절의 조건으로, 
+		// title, content, writer를 수정내역으로 받으니 
+		// 파라미터도 위 4개 항목을 전달해줍니다.
+		
+		String modifypage = mockMvc.perform(
+				MockMvcRequestBuilders.post("/board/modify")
+				.param("bno", "25")
+				.param("title", "수정글")
+				.param("content", "수정내용")
+				.param("writer", "수정자")
+				).andReturn().getModelAndView().getViewName();
+		
+		log.info(modifypage);
+	}
 }

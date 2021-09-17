@@ -15,7 +15,7 @@ public interface BoardService {
 	
 		// 글 등록
 		public void register(BoardVO vo);
-		
+				
 		// 글조회
 		public BoardVO get(Long bno);
 		
@@ -26,6 +26,7 @@ public interface BoardService {
 		public void remove(Long bno);
 		
 		// 전체 글 목록
-		public List<BoardVO> getList();
+		public List<BoardVO> getList(String keyword);
+		
 
 }

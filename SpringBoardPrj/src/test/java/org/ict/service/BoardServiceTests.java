@@ -47,9 +47,9 @@ public class BoardServiceTests {
 	}
 	
 	//@Test
-	public void testGetList() {
+	public void testGetList(String keyword) {
 		
-		service.getList();		
+		service.getList(keyword);		
 	}
 	
 	//@Test
