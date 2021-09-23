@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+
 	<h1>${vo.bno}번글 수정 페이지</h1>
 	<form action="/board/modify" method="post">
 		<input type="hidden" name="bno" value="${vo.bno}">
