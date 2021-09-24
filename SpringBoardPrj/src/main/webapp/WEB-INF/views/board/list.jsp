@@ -54,7 +54,7 @@
 	      <div class="modal-body">
 	        <p>${bno}번 글 작성을 완료했습니다.</p>
 	      </div>
-	      <div class="modal-footer">
+	      <div class="modalfooter">
 	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
 	      </div>
 	    </div>
@@ -63,7 +63,7 @@
 	 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 	<script>
 	// 컨트롤러에서 success라는 이름으로 날린 자료가 들어오는지 확인
-	// 그냥 lsit페이지 접근시는 success를 날려주지 않아서
+	// 그냥 list페이지 접근시는 success를 날려주지 않아서
 	// 아무것도 들어오지 않고 
 	// remove 로직의 결과로 넘어왔을때만 데이터가 전달됨
 	var result = "${success}";

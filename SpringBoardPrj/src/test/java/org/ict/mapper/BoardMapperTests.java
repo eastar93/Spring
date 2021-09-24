@@ -1,6 +1,7 @@
 package org.ict.mapper;
 
 import org.ict.domain.BoardVO;
+import org.ict.domain.Criteria;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class BoardMapperTests {
 	//@Test
 	public void testGetList(String keyword) {
 		log.info("게시글 조회중...");
-		log.info(boardMapper.getList(keyword));
+		log.info(boardMapper.getList(""));
 	}
 	
 	// insert를 실행할 테스트코드를 하단에 작성해보겠습니다.
@@ -66,7 +67,7 @@ public class BoardMapperTests {
 		boardMapper.delete(3L);
 	}
 	
-	@Test
+	//@Test
 	public void testUpdate() {
 		log.info("게시물 수정중...");
 		
@@ -76,6 +77,17 @@ public class BoardMapperTests {
 		vo.setContent("수정내용");
 		vo.setWriter("수정한글쓴이");
 		boardMapper.update(vo);
+	}
+	
+	@Test
+	public void testgetPaging() {
+		// 페이징 코드를 이용해서 원하는 번호의 페이지가 잘 출력되는지 
+		// 확인해주세요.
+		// 15페이지에 글 10개씩 조회
+		Criteria cri = new Criteria(15, 10);
+		// getListPaging을 호출할 때 Criteria가 필요하므로 위에 선언		
+		boardMapper.getListPaging(cri);
+		
 	}
 	
 }

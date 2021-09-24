@@ -38,10 +38,11 @@ public class BoardControllerTests {
 				webAppContextSetup(ctx).build();
 	}
 	
-	//@Test
+	@Test
 	public void testList() throws Exception {
 		
 		log.info(
+				
 			// .get(접속주소) /.post(접속주소)를 제회한 나머지는 
 			// 전부 고정된 양식을 가진 코드이므로 복잡해보이지만
 			// 실제로는 복사 붙여넣기로 쓰셔도 무방합니다.
@@ -72,6 +73,20 @@ public class BoardControllerTests {
 		log.info(resultPage);
 	}
 	
+	@Test
+	public void testGetListPaging() throws Exception {
+		// get방식 접속 
+		// .param을 이용해 criteria관련 정보 전달
+		String resultPage = mockMvc.perform(
+				MockMvcRequestBuilders.get("/board/list")
+				.param("pageNum", "258")
+				.param("amount", "15")
+				).andReturn().getModelAndView().getViewName();
+		
+		log.info(resultPage);
+		
+	}
+	
 	// .param("bno", "글번호") 로 파라미터를 줬을때
 	// 해당 글이 잘 얻어와지는지 체크해주세요.
 	// 참고로 .param()으로 전달하는 자료는 자료형을 막론하고 무조건
@@ -99,7 +114,7 @@ public class BoardControllerTests {
 		log.info(deletepage);
 	}
 	
-	@Test
+	//@Test
 	public void testModify() throws Exception {
 		
 		// 실제로 실행될 쿼리문과 비교해서 데이터를 날려주시면 됩니다.

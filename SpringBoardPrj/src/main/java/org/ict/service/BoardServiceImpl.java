@@ -3,6 +3,7 @@ package org.ict.service;
 import java.util.List;
 
 import org.ict.domain.BoardVO;
+import org.ict.domain.Criteria;
 import org.ict.mapper.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,9 +61,18 @@ public class BoardServiceImpl implements BoardService {
 	// 등록해서 구현해주시면 됩니다.
 	@Override
 	public List<BoardVO> getList(String keyword) {
-		List<BoardVO> boardList = boardmapper.getList(keyword);
+		List<BoardVO> boardList = boardmapper.getList("");
 		log.info("전체 글 목록 조회");
 		return boardList;
+	}
+
+	@Override
+	public List<BoardVO> getListPaging(Criteria cri) {
+		// cri정보(pageNum, amount)를 받아오면
+		// 그걸 이용해서 mapper쪽의 getListPaging호출 후
+		// 나온 결과물을 리턴해서 컨트롤러에서 쓸 수 있드록 처리
+		List<BoardVO> boards = boardmapper.getListPaging(cri);		
+		return boards;
 	}
 	
 	

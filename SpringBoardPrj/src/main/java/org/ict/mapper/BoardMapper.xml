@@ -72,4 +72,16 @@
 		bno = #{bno}
 	</update>
 	
+	<!-- getListPaging을 완성시켜보세요 -->
+	<select id="getListPaging" resultType="org.ict.domain.BoardVO">
+	<!-- *로 조회하면 rn까지 포함하므로 깔끔하게 rn없이 출력하도록 조회컬럼을 다시 작성합니다 -->
+		<![CDATA[
+		SELECT bno, title, content, writer, regdate, updatedate FROM
+    	(SELECT /*+ INDEX_DESC(board_tbl pk_board) */ 
+        ROWNUM rn, board_tbl.* FROM board_tbl
+            WHERE ROWNUM <= #{pageNum} * #{amount}) tbl 
+                WHERE rn > (#{pageNum}-1) * #{amount}
+      	]]>
+	</select>
+	
 </mapper>
