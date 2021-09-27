@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.ict.domain.BoardVO;
 import org.ict.domain.Criteria;
+import org.ict.domain.PageDTO;
 import org.ict.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -58,6 +59,19 @@ public class BoardController {
 		// 게시글 목록을 가져오기
 		List<BoardVO> boardListPage = service.getListPaging(cri);
 		
+		// 페이지 정보를 얻기 이전에 전체 글 갯수를 가져올
+		int total = service.getTotalBoard();
+		
+		// 페이지 밑에 깔아줄 페이징버튼 관련 정보 생성
+		// 단순히 페이지버튼 깔리는지 여부를 테스트할때는
+		// 우선 글 갯수를 정확하게 모르므로 
+		// 까는 버튼 개수는 최대 10개로 고정
+		// 1. mapper 내부에 전체 글 개수를 가져오는 로직 추가
+		// 2. 전체 글 개수를 얻어와서 현재 PageDTO의 총 글 개수 위치에
+		//    DB에서 그때그때 조회해온 총 글 개수를 넣도록 코드를 수정해주세요.
+		PageDTO btnMaker = new PageDTO(cri, total, 20);
+		
+		model.addAttribute("btnMaker", btnMaker);		
 		model.addAttribute("list", boardListPage);
 		
 		// board/list.jsp로 자동연결이 되므로

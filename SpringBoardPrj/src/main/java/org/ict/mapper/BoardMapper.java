@@ -50,5 +50,8 @@ public interface BoardMapper {
 	// Criteria 정보를 파라미터로 제공해야
 	// 몇 페이지의 글을 조회할지 정보를 같이 쿼리문에 전송할 수 있습니다.
 	public List<BoardVO> getListPaging(Criteria cri);
-
+	
+	// 전체 글을 가져오는 로직
+	public int getTotalBoard();
+	
 }
