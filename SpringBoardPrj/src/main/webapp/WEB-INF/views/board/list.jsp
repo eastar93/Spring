@@ -16,7 +16,7 @@
 		<tr>
 			<th>글번호</th>
 			<th>글제목</th>
-			<th>글쓴이</th>
+			<th>작성자</th>
 			<th>작성일</th>
 			<th>수정일</th>			
 		</tr>
@@ -45,7 +45,7 @@
 	    <c:if test="${btnMaker.prev}">
 	    	<li class="page-item">
 	    		<a class="page-link" 
-	    			href="/board/list?pageNum=${btnMaker.startPage - 1}">
+	    			href="/board/list?pageNum=${btnMaker.startPage - 1}&searchType=${btnMaker.cri.searchType}&keyword=${btnMaker.cri.keyword}">
 	    				Previous
 	    		</a>
 	    	</li>
@@ -64,7 +64,7 @@
 	    		   var="pageNum">
 	    	<li class="page-item ${btnMaker.cri.pageNum == pageNum ? 'active' : ' '}">
 	    		<a class="page-link" 
-	    			href="/board/list?pageNum=${pageNum}">
+	    			href="/board/list?pageNum=${pageNum}&searchType=${btnMaker.cri.searchType}&keyword=${btnMaker.cri.keyword}">
 	    				${pageNum}
 	    		</a>
 	    	</li>    	
@@ -74,7 +74,7 @@
 	    <c:if test="${btnMaker.next}">
 	    	<li class="page-item">
 	    		<a class="page-link" 
-	    			href="/board/list?pageNum=${btnMaker.endPage + 1}">
+	    			href="/board/list?pageNum=${btnMaker.endPage + 1}&searchType=${btnMaker.cri.searchType}&keyword=${btnMaker.cri.keyword}">
 	    				Next
 	    		</a>
 	    	</li>
@@ -83,10 +83,44 @@
 	</nav>
 
 	<a href="/board/register"><button>글쓰기</button></a>
+	
+	<!-- 검색창 -->
 	<form action="/board/list" method="get">
-		<input type="text" name="keyword" 
-		placeholder="검색어" value="${keyword}">
-		<input type="submit" value="검색">
+		<!-- option태그를 이용해 검색조건 선택창을 만들어주세요. -->
+		<select name="searchType">
+			<option value="null" 
+				<c:out value="${btnMaker.cri.searchType == null ? 'selected': ''}" />>
+				분류 없음 
+			</option>
+			<option value="t" 
+				<c:out value="${btnMaker.cri.searchType eq 't' ? 'selected': ''}" />>
+				제목
+			</option>
+			<option value="c" 
+				<c:out value="${btnMaker.cri.searchType eq 'c' ? 'selected': ''}" />>
+				본문
+			</option>
+			<option value="w" 
+				<c:out value="${btnMaker.cri.searchType eq 'w' ? 'selected': ''}" />>
+				글쓴이
+			</option>
+			<option value="tc" 
+				<c:out value="${btnMaker.cri.searchType eq 'tc' ? 'selected': ''}" />>
+				제목 + 본문
+			</option>
+			<option value="cw" 
+				<c:out value="${btnMaker.cri.searchType eq 'cw' ? 'selected': ''}" />>
+				본문 + 작성자
+			</option>
+			<option value="tcw" 
+				<c:out value="${btnMaker.cri.searchType eq 'tcw' ? 'selected': ''}" />>
+				제목 + 본문 + 작성자
+			</option>
+		</select>
+	
+		<input type="text" name="keyword" id="keywordInput"
+		placeholder="검색어" value="${btnMaker.cri.keyword}">
+		<button id="submit">검색하기</button>
 	</form>
 		
 	<!-- 모달 코드는 작성이 안 되어있는게 아니고

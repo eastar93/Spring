@@ -60,7 +60,7 @@ public class BoardController {
 		List<BoardVO> boardListPage = service.getListPaging(cri);
 		
 		// 페이지 정보를 얻기 이전에 전체 글 갯수를 가져올
-		int total = service.getTotalBoard();
+		int total = service.getTotalBoard(cri);
 		
 		// 페이지 밑에 깔아줄 페이징버튼 관련 정보 생성
 		// 단순히 페이지버튼 깔리는지 여부를 테스트할때는
@@ -69,8 +69,12 @@ public class BoardController {
 		// 1. mapper 내부에 전체 글 개수를 가져오는 로직 추가
 		// 2. 전체 글 개수를 얻어와서 현재 PageDTO의 총 글 개수 위치에
 		//    DB에서 그때그때 조회해온 총 글 개수를 넣도록 코드를 수정해주세요.
-		PageDTO btnMaker = new PageDTO(cri, total, 20);
+		PageDTO btnMaker = new PageDTO(cri, total, 10);
 		
+		// 버튼 관련 정보도 같이 넘겨줌.
+		// btnMaker를 넘기면 동시에 SearchCriteria도 같이 넘어감
+		// 단, btnMaker 내부 멤버변수로 SearchCriteria가 있기 때문에
+		// 클래스 내부 변수로 클래스를 넣은 형태라 호출이 2단계로 이루어짐		
 		model.addAttribute("btnMaker", btnMaker);		
 		model.addAttribute("list", boardListPage);
 		

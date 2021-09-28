@@ -2,6 +2,7 @@ package org.ict.mapper;
 
 import org.ict.domain.BoardVO;
 import org.ict.domain.Criteria;
+import org.ict.domain.SearchCriteria;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,7 +85,7 @@ public class BoardMapperTests {
 		// 페이징 코드를 이용해서 원하는 번호의 페이지가 잘 출력되는지 
 		// 확인해주세요.
 		// 15페이지에 글 10개씩 조회
-		Criteria cri = new Criteria(15, 10);
+		SearchCriteria cri = new SearchCriteria();
 		// getListPaging을 호출할 때 Criteria가 필요하므로 위에 선언		
 		boardMapper.getListPaging(cri);
 		

@@ -76,9 +76,9 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int getTotalBoard() {
+	public int getTotalBoard(SearchCriteria cri) {
 		
-		return boardmapper.getTotalBoard();
+		return boardmapper.getTotalBoard(cri);
 	}
 	
 	

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotNull;
 
 import org.ict.domain.BoardVO;
 import org.ict.domain.Criteria;
+import org.ict.domain.SearchCriteria;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +82,7 @@ public class BoardServiceTests {
 	@Test
 	public void testGetListPaging() {
 		
-		Criteria cri = new Criteria(216, 10);
+		SearchCriteria cri = new SearchCriteria();
 		service.getListPaging(cri);
 		
 	}

@@ -10,6 +10,34 @@
 	실제로 실행할 쿼리문을 아래와 같이 연결해줍니다.
 	mybatis는 단일자료와 리스트자료를 구분하지 않기때문에
 	단일 VO만 적어주시면 됩니다. -->
+	
+	<sql id = "search">
+		        <if test="searchType != null">
+		        	<if test="searchType == 't'.toString()">
+		        		(Title like '%'||#{keyword}||'%') AND
+		        	</if>
+		        	<if test="searchType == 'c'.toString()">
+		        		(Content like '%'||#{keyword}||'%') AND
+		        	</if>
+		    		<if test="searchType == 'w'.toString()">
+		    			(Writer like '%'||#{keyword}||'%') AND
+		    		</if>
+		    		<if test="searchType == 'tc'.toString()">
+		    			((Title like '%'||#{keyword}||'%') OR
+		    				(Content like '%'||#{keyword}||'%')) AND
+		    		</if>
+		    		<if test="searchType == 'cw'.toString()">
+		    			((Content like '%'||#{keyword}||'%') OR 
+		    				(Writer like '%'||#{keyword}||'%')) AND
+		    		</if>
+		    		<if test="searchType == 'tcw'.toString()">
+		    			((Title like '%'||#{keyword}||'%') OR 
+		    				(Content like '%'||#{keyword}||'%') OR 
+		    					(Writer like '%'||#{keyword}||'%')) AND
+		    		</if>
+		        </if>
+		</sql>
+	
 	<select id="getList" resultType="org.ict.domain.BoardVO">
 		<!-- <이나 >과 같이 태그로 오인될 수 있는 문자를 포함하는
 		쿼리문은 그냥 작성하지 않고, CDATA를 이용합니다. 
@@ -72,19 +100,41 @@
 		bno = #{bno}
 	</update>
 	
+	
 	<!-- getListPaging을 완성시켜보세요 -->
 	<select id="getListPaging" resultType="org.ict.domain.BoardVO">
 	<!-- *로 조회하면 rn까지 포함하므로 깔끔하게 rn없이 출력하도록 조회컬럼을 다시 작성합니다 -->
+	<!-- 수정을 위해 조건에 구애받지 않는 공통쿼리와
+	조건별로 추가해야하는 조건별 쿼리를 따로 지정합니다. -->
 		<![CDATA[
 		SELECT bno, title, content, writer, regdate, updatedate FROM
     	(SELECT /*+ INDEX_DESC(board_tbl pk_board) */ 
         ROWNUM rn, board_tbl.* FROM board_tbl
-            WHERE ROWNUM <= #{pageNum} * #{amount}) tbl 
+            WHERE 
+            
+        ]]> 
+        <!-- 여기부터 조건별 쿼리가 들어감
+        먼저 전달받은 searchType이 null이 아닌지 여부를 확인 후
+        searchType이 null이 아닌 경우만 다시 어떤 키워드가 들어오는지
+        확인해서 맞는 조건문을 공통쿼리와 limit부분 사이에 붙여줍니다.-->
+        <include refid="search"></include>
+                
+        <!-- 아래부터는 MYSQL의 Limit와 같은 역할을 하는 부분 -->
+        <![CDATA[ 
+            ROWNUM <= #{pageNum} * #{amount}) tbl 
                 WHERE rn > (#{pageNum}-1) * #{amount}
       	]]>
 	</select>
 	
 	<select id="getTotalBoard" resultType="int">
-		SELECT COUNT(*) FROM board_tbl
+		SELECT COUNT(*) FROM board_tbl WHERE 
+		<!-- 여기에 sql태그에 저장된 조건절 넣기
+		기존 코드는 검색조건에 무관하게 전체 DB글만 가져왔으므로
+		검색조건에 따른 총 글 개수를 조건에 맞게 출력하도록 수정
+		검색조건은 searchType 변수를 정달받아야 하므로
+		컨트롤러, 서비스, 매퍼쪽에서도 searchType을 받을 수 있게
+		getTotalBoard 호출 관련 메서드에 SearchCriteria를 전달합니다. -->
+		<include refid="search"></include>
+			 bno > 0  
 	</select>	
 </mapper>
