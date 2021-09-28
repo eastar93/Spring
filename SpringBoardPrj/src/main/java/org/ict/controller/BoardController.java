@@ -3,8 +3,8 @@ package org.ict.controller;
 import java.util.List;
 
 import org.ict.domain.BoardVO;
-import org.ict.domain.Criteria;
 import org.ict.domain.PageDTO;
+import org.ict.domain.SearchCriteria;
 import org.ict.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,7 +53,7 @@ public class BoardController {
 	// 기존에 받던 자료에 더해서, Criteria를 추가로 더 입력받습니다.
 	@GetMapping("/list")
 	// Criteria를 파라미터에 선언해 pageNum, amount 처리
-	public void list(Criteria cri, Model model) {
+	public void list(SearchCriteria cri, Model model) {
 
 		// pageNum, amount로 전달된 자료를 활용해
 		// 게시글 목록을 가져오기
