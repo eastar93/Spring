@@ -136,7 +136,7 @@ public class BoardController {
 		
 		// .jsp파일로 board를 보내기 위해 
 		model.addAttribute("detail", board);
-		
+				
 		// board폴더의 get.jsp로 연결
 		return "/board/get";
 	}
@@ -166,13 +166,25 @@ public class BoardController {
 	// BoardVO로 받아서 수정한 다음 수정한 글의 디테일페이지로 넘어오면 됩니다.
 	// 수정 후는 디테일페이지로 redirect 해주세요
 	@PostMapping("/modify")
-	public String modify(BoardVO vo, RedirectAttributes rttr) {
+	// pageNum, searchType, keyword을 컨트롤러가 받아올 수 있도록
+	// 해당 이름의 멤법변수를 가진 SearchCriteria를 파라미터로 선언
+	public String modify(BoardVO vo, SearchCriteria cri, RedirectAttributes rttr) {
 		log.info("수정 로직 : " + vo);
+		log.info("페이지번호 : " + cri.getPageNum());		
+		log.info("검색조건 : " + cri.getSearchType());
+		log.info("키워드 : " + cri.getKeyword());		
 		service.modify(vo);
+		
+		// rttr.addAttribute("파라미터명", "전달자료")는
+		// 호출되면 redirect 주소 뒤에 파라미터를 붙여줍니다.
+		rttr.addAttribute("bno", vo.getBno());
+		rttr.addAttribute("pageNum", cri.getPageNum());
+		rttr.addAttribute("searchType", cri.getSearchType());
+		rttr.addAttribute("keyword", cri.getKeyword());
 		
 		// 상세 페이지는 bno가 파라미터로 주어져야 하기 때문에 
 		// 아래와 같이 리턴구문을 작성해야 합니다.
-		return "redirect:/board/get?bno="+vo.getBno();
+		return "redirect:/board/get";
 	}
 	
 	// 글을 수정할때는 modify.jsp를 이용해 수정을 해야합니다.
