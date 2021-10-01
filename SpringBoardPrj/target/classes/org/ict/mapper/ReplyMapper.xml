@@ -23,7 +23,7 @@
 		UPDATE reply_tbl
 			SET
 		reply = #{reply}, updateDate = SYSDATE 
-			WYERE rno = #{rno}
+			WHERE rno = #{rno}
 	</update>
 	
 	<delete id = "delete">
