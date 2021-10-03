@@ -111,8 +111,11 @@
     	(SELECT /*+ INDEX_DESC(board_tbl pk_board) */ 
         ROWNUM rn, board_tbl.* FROM board_tbl
             WHERE 
-            
-        ]]> 
+        ]]>
+           <include refid="search"></include>
+        <![CDATA[
+			ORDER BY dc_num DESC limit #{pageNum}, #{amount} 
+		]]>
         <!-- 여기부터 조건별 쿼리가 들어감
         먼저 전달받은 searchType이 null이 아닌지 여부를 확인 후
         searchType이 null이 아닌 경우만 다시 어떤 키워드가 들어오는지
