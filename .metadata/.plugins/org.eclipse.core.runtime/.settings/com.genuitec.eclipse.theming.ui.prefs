@@ -4,8 +4,13 @@ configurationInstallLocation=/C\:/Users/ict03-09/eclipse/jee-2020-09/eclipse/
 ct.upsell.display.after=1631613977907
 eclipse.preferences.version=1
 iconcolormode=primary
+<<<<<<< HEAD
 last.download.attempt.time=1633259650649
 lastConfiguration=1633259630222
+=======
+last.download.attempt.time=1633049078324
+lastConfiguration=1633048629081
+>>>>>>> 0c7334759ad32a8927b23b6e115165eb91c7861b
 newinstall=false
 showWelcomeDialog=false
 workbench.theme=Dark Gray
