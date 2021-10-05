@@ -1,11 +1,14 @@
+=\=\=\=\=\=\=
+<<<<<<<=HEAD
+>>>>>>>=ff12c83a2cb290004e3640df4ea41f0fca4c93c8
 applyBackground=false
 approved.defs.file.last.changed.time=1624986146000
 configurationInstallLocation=/C\:/Users/ict03-09/eclipse/jee-2020-09/eclipse/
 ct.upsell.display.after=1631613977907
 eclipse.preferences.version=1
 iconcolormode=primary
-last.download.attempt.time=1633307902275
-lastConfiguration=1633307863003
+last.download.attempt.time=1633394128336
+lastConfiguration=1633394100256
 newinstall=false
 showWelcomeDialog=false
 workbench.theme=Dark Gray

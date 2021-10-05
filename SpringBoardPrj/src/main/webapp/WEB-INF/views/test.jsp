@@ -19,6 +19,8 @@
 	</style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+
 </head>
 <body>
 
@@ -61,8 +63,10 @@
 		
 		var bno = 13000;
 		
-		// 비동기 코드
-		$("#replyAddBtn").on("click", function(){
+		
+			// 비동기 코드
+			// 글쓰기 로직
+			$("#replyAddBtn").on("click", function(){
 		
 			// 각 input태그에 들어있던 글쓴이, 본문의 value값을 변수에 저장함.
 			var replyer = $("#newReplyWriter").val();
@@ -97,6 +101,55 @@
 			});
 		});
 	
+		// 댓글 삭제 로직	
+		$("#replyDelBtn").on("click", function() {
+			// 삭제에 필요한 댓글번호 모달 타이틀 부분에서 얻기
+			var rno = $(".modal-title").html();
+			
+			$.ajax({
+				type : 'delete',
+				url : '/replies/' + rno,
+				// 전달 데이터가 없이 url과 호출타입만으로 삭제처리하므로
+				// 이외 정보는 제공할 필요가 없음
+				success : function(result) {
+					if(result === 'SUCCESS') {
+						alert(rno + "번 댓글이 삭제되었습니다.");
+						// 댓글 삭제 후 모달창 달고 새 댓글목록 갱신
+						$("#modDiv").hide("slow");
+						getAllList();
+					}
+				}
+			})
+		});
+		
+		// 댓글 수정 로직(rno, reply필요)
+		$("#replyModBtn").on("click", function() {
+			// 수정에 필요한 댓글번호 모달 타이틀 부분에서 얻기
+			var rno = $(".modal-title").html();
+			//수정에 필요한 본문내역을 #reply의 value값으로 얻기
+			var reply = $("#replytext").val();
+			
+			$.ajax({
+				type : 'patch',
+				url : '/replies/' + rno,
+				headers : {
+					"Content-Type" : "application/json",
+					"X-HTTP-Method-Override" : "PATCH"
+				},
+				dataType : 'text',
+				data : JSON.stringify({reply:reply}),
+				success : function(result) {
+					if(result === 'SUCCESS') {
+						alert(rno + "번 댓글이 수정되었습니다.");
+						// 댓글 수정 후 모달창 닫고 새 댓글목록 갱신
+						$("#modDiv").hide("slow");
+						getAllList();
+					}
+				}
+			})
+		});
+		
+		
 		// 이벤트 위임 
 		// 내가 현재 이벤트를 걸려는 집단(button)을 포함하면서 범위가 제일 좁은
 		// #replies로 시작조건을 잡습니다
@@ -118,6 +171,7 @@
 			$("#modDiv").show("slow");
 		});
 		
+		
 		function getAllList() {		
 			$.getJSON("/replies/all/" + bno, function(data) {
 				// data 변수가 바로 얻어온 json데이터의 집합
@@ -129,10 +183,9 @@
 				$(data).each(function() { 
 					// $(data).each()는 향상된 for문처럼 내부데이터를 하나하나 반복합니다.
 					// 내부 this는 댓글 하나하나입니다.
-						
-					str += "<li data-rno='" + this.rno + "' class='replyLi'>"
-						+ this.rno + ":" + this.reply
-						+ "<button>수정/삭제</button></li>";
+					
+					str += "<div class='repiyLi' data-rno='" + this.rno + "'><strong>@"
+						+= this.replyer + "</strong> - " + this.updateDate + "<br>"
 				});
 				$("#replies").html(str);	
 			
