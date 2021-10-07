@@ -37,13 +37,16 @@ public class ReplyController {
 							// @RequestBody 어노테이션이 붙어야
 							// consumes와 연결됨
 							@RequestBody ReplyVO vo) {
-		
+		System.out.println("register 진입");
 		// 깡통 entity를 먼저 생성
 		ResponseEntity<String> entity = null;
 		try {
 			// 먼저 글쓰기 로직 실행 후 에러가 없다면...
+			System.out.println("vo입력직전");
 			service.addReply(vo);
+			System.out.println("vo입력완료");
 			entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+			System.out.println("여기까지 오는데 에러 없었음.");
 		} catch (Exception e) {
 			
 			// catch로 넘어왔다라는건 글쓰기 로직에 문제가 생긴 상황
@@ -51,6 +54,7 @@ public class ReplyController {
 			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 		// 위의 try블럭이나 catch블럭에서 얻어온 entity변수 리턴
+		System.out.println("코드번호 리턴 직전");
 		return entity;
 	}
 	
@@ -87,7 +91,7 @@ public class ReplyController {
 			ResponseEntity<String> entity = null;
 			try {
 				service.removeReply(rno);
-				entity = new ResponseEntity<String>(
+				entity = new ResponseEntity<>(
 								"SUCCESS", HttpStatus.OK);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -120,11 +124,11 @@ public class ReplyController {
 			vo.setRno(rno);
 			service.modifyReply(vo);
 			
-			entity = new ResponseEntity<String>(
+			entity = new ResponseEntity<>(
 						"SUCCESS", HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
-			entity = new ResponseEntity<String>(
+			entity = new ResponseEntity<>(
 					e.getMessage(), HttpStatus.BAD_REQUEST);		
 		}
 		return entity;

@@ -119,7 +119,7 @@
 					console.log(date);
 					// data 내부의 시간을 형식(format)화 해서 출력
 					var formattedTime = "게시일 : " + date.getFullYear() // 년도 추출
-												+ "/" + (date.getMonth()) // month는 0월부터 시작
+												+ "/" + (date.getMonth()+1) // month는 0월부터 시작
 												+ "/" + date.getDate() // 날짜 추출
 												+ "/" + date.getHours() // 시간 추출
 												+ ":" + date.getMinutes() // 분 추출
@@ -145,15 +145,13 @@
 		// 각 input태그에 들어있던 글쓴이, 본문의 value값을 변수에 저장함.
 		var replyer = $("#newReplyWriter").val();
 		var reply = $("#newReply").val();
-		// 디버깅시는 console.log()내부에 적어서 확인합니다.
-		// console.log(replyer + "/" + reply);
-		
+			
 		$.ajax({
 			type : 'post',
 			url : '/replies/',
 			headers : {
-				"content-Type" : "application/json",
-				"X-HTTP-Method-Override" : "POST" 
+				"Content-Type" : "application/json",
+				"X-HTTP-Method-Override" : "POST"
 			},
 			dataType : 'text',
 			data : JSON.stringify({
@@ -172,6 +170,9 @@
 					// 넣어주도록 전체 댓글 목록 다시 조회
 					getAllList();
 				} 
+			},
+			error : function(result){
+				console.log("에러가 났습니다.");
 			}
 		});
 	});
@@ -180,6 +181,8 @@
 	$("#replyDelBtn").on("click", function() {
 		// 삭제에 필요한 댓글번호 모달 타이틀 부분에서 얻기
 		var rno = $(".modal-title").html();
+		// 삭제도 마찬가지로 접근해야합니다.
+		console.log("삭제버튼 눌렀을때 값 얻는지 확인" + rno);
 		
 		$.ajax({
 			type : 'delete',
@@ -202,7 +205,10 @@
 		// 수정에 필요한 댓글번호 모달 타이틀 부분에서 얻기
 		var rno = $(".modal-title").html();
 		//수정에 필요한 본문내역을 #reply의 value값으로 얻기
-		var reply = $("#reply").val();
+		var reply = $("#replytext").val();
+		// 수정시 정보를 얻는지 디버깅을 해봐야합니다.
+		console.log("수정버튼 눌렀을때 얻은 rno : " + rno);
+		console.log("수정버튼 눌렀을때 얻은 reply : " + reply);
 		
 		$.ajax({
 			type : 'patch',
@@ -237,7 +243,8 @@
 		// .attr("속성명")을 하면 해당 속성의 값을 얻습니다.
 		var rno = replyLi.attr("data-rno"); 
 		// 버튼의 형제태그중 .reply의 내부 텍스트얻기
-		var reply = $(this).parent().siblings(".reply").text();
+		// 아래처러 ㅁ하면 this의 부모의 형제가 됩니다. 제가 적은건 형제태그지 부모의 형제가 아닙니다.
+		var reply = $(this).siblings(".reply").text();
 		
 		// 버튼의 부모(replyLi)의 자식(.reply) div class="reply"의 내부텍스트 얻기
 		// var reply = $(this).parent().childrens(".reply").text();

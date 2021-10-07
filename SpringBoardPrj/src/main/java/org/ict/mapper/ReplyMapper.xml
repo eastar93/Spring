@@ -30,4 +30,8 @@
 		DELETE FROM reply_tbl WHERE rno = #{rno}
 	</delete>
 	
+	<select id="getBno" resultType="Long">
+		SELECT bno FROM reply_tbl WHERE rno = #{rno}
+	</select>
+	
 </mapper>

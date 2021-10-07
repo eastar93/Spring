@@ -107,15 +107,11 @@
 	<!-- 수정을 위해 조건에 구애받지 않는 공통쿼리와
 	조건별로 추가해야하는 조건별 쿼리를 따로 지정합니다. -->
 		<![CDATA[
-		SELECT bno, title, content, writer, regdate, updatedate FROM
+		SELECT bno, title, content, writer, regdate, updatedate, replycount FROM
     	(SELECT /*+ INDEX_DESC(board_tbl pk_board) */ 
         ROWNUM rn, board_tbl.* FROM board_tbl
             WHERE 
         ]]>
-           <include refid="search"></include>
-        <![CDATA[
-			ORDER BY dc_num DESC limit #{pageNum}, #{amount} 
-		]]>
         <!-- 여기부터 조건별 쿼리가 들어감
         먼저 전달받은 searchType이 null이 아닌지 여부를 확인 후
         searchType이 null이 아닌 경우만 다시 어떤 키워드가 들어오는지
@@ -139,5 +135,12 @@
 		getTotalBoard 호출 관련 메서드에 SearchCriteria를 전달합니다. -->
 		<include refid="search"></include>
 			 bno > 0  
-	</select>	
+	</select>
+	
+	<update id="updateReplyCount">
+		UPDATE board_tbl
+			SET 
+		replycount = replycount + #{amount} where bno = #{bno}
+	</update>
+		
 </mapper>
