@@ -10,7 +10,9 @@
 	<!-- 커스텀 클래스 빈 저장 -->
 	<bean id="customAccessDenied" class="org.ict.security.CustomAccessDeniedHandler"/>
 	<bean id="customLoginSuccess" class="org.ict.security.CustomLoginSuccessHandler"/>
-	
+	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+	<bean id="customUserDetailsService" class="org.ict.security.CustomUserDetailsService" />
+		
 	<!-- http영역 -->
 	<security:http>
 		 
@@ -35,11 +37,15 @@
 	<!-- 인증영역 -->
 	<security:authentication-manager>
 	
-		<security:authentication-provider>
-			<security:user-service>
+		<security:authentication-provider user-service-ref="customUserDetailsService">
+			<!-- <security:user-service>
 				<security:user name="member" password="{noop}member" authorities="ROLE_MEMBER"/>
 				<security:user name="admin" password="{noop}admin" authorities="ROLE_MEMBER,ROLE_ADMIN"/>
-			</security:user-service>
+			</security:user-service>  -->
+			<!-- <security:jdbc-user-service data-source-ref="dataSource"/> -->
+			
+			<security:password-encoder ref="bcryptPasswordEncoder"/>
+			
 		</security:authentication-provider>
 		
 	</security:authentication-manager>
