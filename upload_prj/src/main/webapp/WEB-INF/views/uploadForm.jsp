@@ -7,11 +7,15 @@
 <title>Insert title here</title>
 </head>
 <body>
-	
-	<form action="uploadFormAction" method="post" enctype="multipart/form-data">
+
+	<form action="uploadFormAction" method="post"
+			enctype="multipart/form-data">
+		
 		<input type="file" name="uploadFile" multiple>
+		
 		<button>Submit</button>
+		
 	</form>
-	
+
 </body>
 </html>

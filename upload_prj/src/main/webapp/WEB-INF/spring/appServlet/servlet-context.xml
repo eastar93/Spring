@@ -23,6 +23,8 @@
 	
 	<context:component-scan base-package="org.ict.controller" />
 	
+	<beans:bean id="multipartResover" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"></beans:bean>
+	
 	
 	
 </beans:beans>
