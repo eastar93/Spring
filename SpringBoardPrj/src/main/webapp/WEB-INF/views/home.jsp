@@ -11,6 +11,6 @@
 
 <P>  The time on the server is ${serverTime}. </P>
 
-<h1>한글 인코딩 테스트</h1>
+<h1>한글 한글 한글 한글</h1>
 </body>
 </html>

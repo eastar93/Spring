@@ -16,45 +16,39 @@ public class ReplyServiceImpl implements ReplyService {
 	@Autowired
 	private ReplyMapper mapper;
 	
+	// 리플 썼을때 board_tbl도 업데이트 해야하므로 board_tbl에 접근할수있는
+	// BoardMapper도 같이 호출할 수 있게 생성합ㄴ다.
 	@Autowired
 	private BoardMapper boardMapper;
+	
 	
 	@Override
 	@Transactional
 	public void addReply(ReplyVO vo) {
-		System.out.println("addReply");
 		mapper.create(vo);
-		// 글 쓰고 나서, board_tbl쪽에 해당 글번호에 댓글 1증가
+		// 글 쓰고 나서, board_tbl쪽에 해당 글번호에 댓글 1 증가
 		boardMapper.updateReplyCount(vo.getBno(), 1L);
-		
 	}
 
 	@Override
 	public List<ReplyVO> listReply(Long bno) {
-		
 		return mapper.getList(bno);
 	}
 
 	@Override
 	public void modifyReply(ReplyVO vo) {
-		
 		mapper.update(vo);
-		
 	}
 
 	@Override
 	@Transactional
 	public void removeReply(Long rno) {
-		// 내가 삭제하는 댓글이 몇 번 글ㅇ에 달려있던건지 조회
-		// mapper.delete가 실행되는순간, bno를 포함한 모든 rno번 로우가 날아감
-		// 먼저 bno를 얻엉온 저장까지 한 다음, rno번 로우 삭제를 해야 마지막 로직 실행가능
+		// 내가 삭제하는 댓글이 몇 번 글에 달려있던건지 조회
+		// mapper.delete가 실행되는순간, bno를 포함한 모든 rno번 로우가 날아감.
+		// 먼저 bno를 얻어서 저장까지 한 다음, rno번 로우 삭제를 해야 마지막 로직 실행가능 
 		Long bno = mapper.getBno(rno);
-		System.out.println("글 번호 얻어온거 :" + bno + "/삭제된리플번호 : " + rno);
 		mapper.delete(rno);
-		System.out.println("서비스에서 삭제되면 뜨는 메세지");
 		// 댓글 삭제 후 replycount에 1차감
 		boardMapper.updateReplyCount(bno, -1L);
-		System.out.println("차감이 끝나면 뜨는 메세지");
 	}
-	
 }

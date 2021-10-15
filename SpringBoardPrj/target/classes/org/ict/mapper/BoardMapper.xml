@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.rg/dtd/mybatis-3-mapper.dtd">
@@ -6,141 +6,162 @@
 연결해 줄지 아래와 같이 인터페이스 파일부터 mapper태그로 연결합니다. -->
 <mapper namespace="org.ict.mapper.BoardMapper">
 
+	<!-- 여기부터 조건별 쿼리가 들어감 
+	먼저 전달받은 searchType이 null인지 아닌지 여부를 확인 후
+	searchType이 null 이 아닌 경우만 다시 어떤 키워드가 들어오는지
+	확인해서 맞는 조건문을 공통쿼리와 limit부분 사이에 붙여줍니다.-->
+	<sql id="search"> 
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">
+				(TITLE like '%'||#{keyword}||'%') AND
+			</if>
+			<if test="searchType == 'c'.toString()">
+				(CONTENT like '%'||#{keyword}||'%') AND
+			</if>
+			<if test="searchType == 'w'.toString()">
+				(WRITER like '%'||#{keyword}||'%') AND
+			</if>
+			<if test="searchType == 'tc'.toString()">
+				((TITLE like '%'||#{keyword}||'%')
+					OR
+				(CONTENT like '%'||#{keyword}||'%')) AND
+			</if>
+			<if test="searchType == 'cw'.toString()">
+				((CONTENT like '%'||#{keyword}||'%')
+					OR
+				(WRITER like '%'||#{keyword}||'%')) AND
+			</if>
+			<if test="searchType == 'tcw'.toString()">
+				((TITLE like '%'||#{keyword}||'%')
+					OR
+				(CONTENT like '%'||#{keyword}||'%')
+					OR
+				(WRITER like '%'||#{keyword}||'%')) AND
+			</if>
+		</if>
+	</sql>
+
+
 	<!-- 위의 BoardMapper 인터페이스의 getList메서드를 호출시
 	실제로 실행할 쿼리문을 아래와 같이 연결해줍니다.
 	mybatis는 단일자료와 리스트자료를 구분하지 않기때문에
-	단일 VO만 적어주시면 됩니다. -->
-	
-	<sql id = "search">
-		        <if test="searchType != null">
-		        	<if test="searchType == 't'.toString()">
-		        		(Title like '%'||#{keyword}||'%') AND
-		        	</if>
-		        	<if test="searchType == 'c'.toString()">
-		        		(Content like '%'||#{keyword}||'%') AND
-		        	</if>
-		    		<if test="searchType == 'w'.toString()">
-		    			(Writer like '%'||#{keyword}||'%') AND
-		    		</if>
-		    		<if test="searchType == 'tc'.toString()">
-		    			((Title like '%'||#{keyword}||'%') OR
-		    				(Content like '%'||#{keyword}||'%')) AND
-		    		</if>
-		    		<if test="searchType == 'cw'.toString()">
-		    			((Content like '%'||#{keyword}||'%') OR 
-		    				(Writer like '%'||#{keyword}||'%')) AND
-		    		</if>
-		    		<if test="searchType == 'tcw'.toString()">
-		    			((Title like '%'||#{keyword}||'%') OR 
-		    				(Content like '%'||#{keyword}||'%') OR 
-		    					(Writer like '%'||#{keyword}||'%')) AND
-		    		</if>
-		        </if>
-		</sql>
-	
+	resultType에는 List<> 자료형도 아래와 같이
+	단일 VO만 적어주면 됩니다. -->
 	<select id="getList" resultType="org.ict.domain.BoardVO">
 		<!-- <이나 >과 같이 태그로 오인될 수 있는 문자를 포함하는
-		쿼리문은 그냥 작성하지 않고, CDATA를 이용합니다. 
-		아래와 같이 <![CDATA[실행문]]>과 같이 실행문을
+		쿼리문은 그냥 작성하지 않고, CDATA를 이용합니다.
+		아래와 같이 <![CDATA[ 실행문 ]]> 과 같이 실행문을
 		CDATA내부에 작성하면 내부의 부등호는 전부 문자로 간주됩니다.
-		쿼리문에서 like절을 사용하는 경우 #{변수명}] 대신
-		'%'||#{변수명}||'%를 사용합니다.(oracle)
-		CONCAT('%', #{변수명}, '%') (mysql) -->
-		<![CDATA[SELECT * FROM board_tbl WHERE title 
-			LIKE '%'||#{keyword}||'%' ORDER BY bno DESC]]>
+		쿼리문에서 like절을 사용하는 경우 #{변수명} 대신 
+		'%'||#{변수명}||'%'를 사용합니다.(oracle)
+		CONCAT('%', #{변수명}, '%') (mysql)-->
+		<![CDATA[
+			SELECT * FROM board_tbl  
+				WHERE title LIKE '%'||#{keyword}||'%'
+			ORDER BY bno DESC
+		]]>
 	</select>
 	
 	<!-- 현재 insert는 BoardVO를 파라미터로 받고 있습니다.
-	이 경우, VO 내부 변수를 #{변수명}으로 쿼리문에 전달할 수 있습니다.
-	${변수명}이 아님에 주의해주세요. -->
+	이 경우, VO 내부 변수를 #{변수명} 으로 쿼리문에 전달할 수 있습니다.
+	${변수명} 이 아님에 주의해주세요. -->
 	<insert id="insert">
-		INSERT INTO board_tbl (bno, title, content, writer) 
+		INSERT INTO board_tbl (bno, title, content, writer)
 			VALUES
-		(board_num.nextval , #{title}, #{content}, #{writer})
+		(board_num.nextval, #{title}, #{content}, #{writer})
 	</insert>
 	
 	<!-- 위의 insert 메서드는 쿼리문을 한 번만 실행해도 데이터가 입력되지만
 	단점이라면 bno에 들어갈 값을 미리 확인할 수 없습니다. 
 	bno에 들어갈 값을 확인할 수 있도록 insert실행 이전에
 	bno값을 외부에서 조회할 수 있도록 변수화 시키는 작업이 필요합니다.
-	그 작업을 할 때 사용하는 태그가 바로 selectKey 태그입니다. -->
+	그 작업을 할 때 사용하는 태그가 바로 selectKey 태그입니다.-->
 	<insert id="insertSelectKey">
-		
+	
 		<!-- 실행 이전에 bno값을 먼저 조회해서 bno변수명으로 저장 
 		keyProperty에 변수명을, order에 BEFORE를 넣어서
 		insert쿼리문 실행 이전에 조회한 bno값을 bno라는 명칭에 저장-->
 		<selectKey keyProperty="bno" order="BEFORE"
 			resultType="long">
-			SELECT board_num.nextval from dual
+			SELECT board_num.nextval from dual 	
 		</selectKey>
-		
+	
 		INSERT INTO board_tbl (bno, title, content, writer)
 			VALUES(#{bno}, #{title}, #{content}, #{writer})
 	</insert>
 	
-	<!-- 방금 만든 select 메서드를 연결해보겠습니다. 
-	resultType은 리스트랑 개별자료형을 구분하지 않기 때문에 
-	그냥 BoardVO로 처리하면 됩니다.-->	
+	
+	
+	
+	<!-- 방금 만든 select 메서드를 연결해보겠습니다.
+	resultType은 리스트랑 개별자료형을 구분하지 않기 때문에
+	그냥 BoardVO로 처리하면 됩니다. -->
 	<select id="select" resultType="org.ict.domain.BoardVO">
-		<![CDATA[SELECT * FROM board_tbl WHERE bno = #{bno}]]>
+		SELECT * FROM board_tbl WHERE bno = #{bno}
 	</select>
 	
-	<!-- delete 메서드를 연결해보겠습니다. 
-	#{bno}로 가변코드부분을 메꿔줍니다. -->
+	<!-- delete 메서드를 연결해보겠습니다.
+	#{bno} 로 가변코드부분을 메꿔줍니다. -->
 	<delete id="delete">
 		DELETE FROM board_tbl WHERE bno = #{bno}
 	</delete>
-	<!-- update 태그를 이용해서 작성합니다. -->
+	
+	<!-- update 태그를 이용해서 작성합니다 -->
 	<update id="update">
-		UPDATE board_tbl 
+		UPDATE board_tbl
 			SET
-		title = #{title}, content = #{content}, 
-		writer = #{writer}, updatedate = sysdate 
-			WHERE 
-		bno = #{bno}
+		title=#{title}, content=#{content}, 
+		writer=#{writer}, updatedate=sysdate
+			WHERE
+		bno=#{bno}
 	</update>
 	
 	
-	<!-- getListPaging을 완성시켜보세요 -->
+	<!-- getListPaging을 완성시켜보세요. -->
 	<select id="getListPaging" resultType="org.ict.domain.BoardVO">
-	<!-- *로 조회하면 rn까지 포함하므로 깔끔하게 rn없이 출력하도록 조회컬럼을 다시 작성합니다 -->
+	<!-- *로 조회하면 rn까지 포함하므로 깔끔하게 rn없이
+	출력하도록 조회컬럼을 다시 작성합니다. -->
 	<!-- 수정을 위해 조건에 구애받지 않는 공통쿼리와
 	조건별로 추가해야하는 조건별 쿼리를 따로 지정합니다. -->
 		<![CDATA[
-		SELECT bno, title, content, writer, regdate, updatedate, replycount FROM
-    	(SELECT /*+ INDEX_DESC(board_tbl pk_board) */ 
-        ROWNUM rn, board_tbl.* FROM board_tbl
-            WHERE 
-        ]]>
-        <!-- 여기부터 조건별 쿼리가 들어감
-        먼저 전달받은 searchType이 null이 아닌지 여부를 확인 후
-        searchType이 null이 아닌 경우만 다시 어떤 키워드가 들어오는지
-        확인해서 맞는 조건문을 공통쿼리와 limit부분 사이에 붙여줍니다.-->
-        <include refid="search"></include>
-                
-        <!-- 아래부터는 MYSQL의 Limit와 같은 역할을 하는 부분 -->
-        <![CDATA[ 
-            ROWNUM <= #{pageNum} * #{amount}) tbl 
-                WHERE rn > (#{pageNum}-1) * #{amount}
-      	]]>
+		SELECT bno, title, content, writer, regdate, updatedate, replycount
+		 FROM
+		(SELECT
+		/*+ INDEX_DESC(board_tbl pk_board) */
+		rownum rn, board_tbl.* FROM board_tbl 
+			WHERE
+		]]>
+		
+		<!-- 원래 조건절을 길게 쓰던 자리에 -->
+		<include refid="search"></include>
+
+		<!-- 아래부터는 MySQL의 Limit와 같은 역할을 하는 부분 -->
+		<![CDATA[	
+			rownum <= #{pageNum} * #{amount}) tbl
+			WHERE rn > (#{pageNum}-1) * #{amount}
+		]]>
 	</select>
 	
 	<select id="getTotalBoard" resultType="int">
-		SELECT COUNT(*) FROM board_tbl WHERE 
-		<!-- 여기에 sql태그에 저장된 조건절 넣기
+		SELECT COUNT(*) FROM board_tbl WHERE
+		<!-- 여기에 sql태그에 저장된 조건절 넣기 
 		기존 코드는 검색조건에 무관하게 전체 DB글만 가져왔으므로
 		검색조건에 따른 총 글 개수를 조건에 맞게 출력하도록 수정
-		검색조건은 searchType 변수를 정달받아야 하므로
-		컨트롤러, 서비스, 매퍼쪽에서도 searchType을 받을 수 있게
-		getTotalBoard 호출 관련 메서드에 SearchCriteria를 전달합니다. -->
-		<include refid="search"></include>
-			 bno > 0  
+		검색조건은 searchType 변수를 전달받아야 하므로
+		컨트롤러, 서비스, 매퍼쪽에도 searchType을 받을수 있게
+		getTotalBoard 호출 관련 메서드에 SearchCriteria를 전달합니다.-->
+			<include refid="search"></include>
+		bno > 0
 	</select>
 	
 	<update id="updateReplyCount">
-		UPDATE board_tbl
-			SET 
-		replycount = replycount + #{amount} where bno = #{bno}
+		update board_tbl
+			set
+		replycount = replycount + #{amount} WHERE bno = #{bno}
 	</update>
-		
+	
+	
 </mapper>
+
+
+

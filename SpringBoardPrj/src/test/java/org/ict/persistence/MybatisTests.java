@@ -14,12 +14,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import lombok.extern.log4j.Log4j;
 
+
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
 @Log4j
 public class MybatisTests {
 
-
+	
 	// Connection => OJDBC 담당
 	// DataSource => HikariCP 담당
 	// SqlSessionFactory => Mybatis 담당
@@ -27,15 +29,16 @@ public class MybatisTests {
 	private SqlSessionFactory sqlSessionFactory;
 	
 	@Test
-	public void testMyBatis() {
+	public void testMybatis() {
 		try(SqlSession session = sqlSessionFactory.openSession();
-				Connection con = session.getConnection();) {
-			log.info(session);
+				Connection con = session.getConnection();){
+			
 			log.info(con);
-		} catch (Exception e) {
+			log.info(session);
+			
+		}catch(Exception e) {
 			fail(e.getMessage());
 		}
 	}
+	
 }
-
-
