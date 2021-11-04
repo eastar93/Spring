@@ -81,16 +81,16 @@ public class BoardMapperTests {
 	}
 	
 	
-	@Test
-	public void testgetPaging() {
-		// 페이징 코드를 이용해서 원하는 번호의 페이지가 잘 출력되는지
-		// 확인해주세요.
-		// 5페이지에 글 10개씩 조회
-		Criteria cri = new Criteria(3251, 20);
-		// getListPaging을 호출할 때 Criteria가 필요하므로 위에 선언
-		mapper.getListPaging(cri);
-		
-	}
+//	@Test
+//	public void testgetPaging() {
+//		// 페이징 코드를 이용해서 원하는 번호의 페이지가 잘 출력되는지
+//		// 확인해주세요.
+//		// 5페이지에 글 10개씩 조회
+//		Criteria cri = new Criteria(3251, 20);
+//		// getListPaging을 호출할 때 Criteria가 필요하므로 위에 선언
+//		mapper.getListPaging(cri);
+//		
+//	}
 	
 	
 	

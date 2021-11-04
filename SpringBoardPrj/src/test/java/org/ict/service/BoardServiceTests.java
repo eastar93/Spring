@@ -77,11 +77,11 @@ public class BoardServiceTests {
 		service.remove(5L);
 	}
 	
-	@Test
-	public void testGetListPaging() {
-		Criteria cri = new Criteria(216, 10);
-		service.getListPaging(cri);
-	}
+//	@Test
+//	public void testGetListPaging() {
+//		Criteria cri = new Criteria(216, 10);
+//		service.getListPaging(cri);
+//	}
 	
 	
 	
